@@ -1,41 +1,76 @@
 #include "gestionListeChainee.h"
+#include "gestionListeCouts.h"
 #include "gestionMatrice.h"
 
 
 int main(int args, char * argv[]){
 	
-	int			ligne, col,i,j;
-	int		   *matrice;
+	int			ligne, col,i = 0,j = 0,num = 0,k;
+	int		      **matrice;
+	ListeChainee_t	       *listecourante,*copie,*prec; 
+	
 
 	//Création de la matrice
 	if (argv[1] == NULL) {
 		printf(" Pas de nom de fichier entré");
 		exit(1);
 	}
-	else {
-		matrice = lire_remplir(argv[1], &ligne, &col);
+	else if(argv[2] == NULL){
+		printf(" Pas de k entré");
+		exit(2);		
 	}
+	else {
+		k = atoi(argv[2]);
+		matrice = lire_remplir2(argv[1], &ligne, &col);
+	}
+	//afficherMatrice(matrice,ligne,col);
 	
-	/*for (i = 0; i<ligne; i++)
-	{
-		for (j = 0; j<col; j++)
-		{
-			printf("%d ", C[ligne*i + j]);
+	
+	while(num != k){
+		
+		if(num == 0){					 						  listecourante=creerTeteListeChainee(matrice[i][j],i,j);			
+		}else{
+		//printf("%d %d %d     \n",i,j,matrice[i][j]);
+	insertionTrierobligatoireListeChainee(&listecourante,matrice[i][j],i,j);
 		}
-		printf("\n");
-	}*/
-	
 
-	//Test liste chainee
+		num+=1;
+		j+=1;
+		if(j>= col){
+			i+=1;
+			j=0;
+			if(i>= ligne){
+				num = k;			
+			}		
+		}	
+	}
+
+	afficherListeChainee(listecourante);	
 	
-	/*
-	ListeChainee_t lc = creerListeChainee(0,0,0);
+	//supprimerDebutListeChainee(&listecourante);
+	//afficherListeChainee(listecourante);
+	/*---------------------------*/
+	copie = listecourante;
+	while(copie){
+		if(copie->i ==2){
+			prec = copie;
+			copie=copie->suiv;
+			supprimerDebutListeChainee(&prec);	
+		}else{
+			copie=copie->suiv;
+		}
 	
-	printf("%d %d %d",lc.val,lc.i,lc.j);
+	} 
 	
-	ajouterElementListeChainee(&lc,1,1,1);
-	printf("%d %d %d",(lc.suiv)->val,(lc.suiv)->i,(lc.suiv)->j);
-	*/
+	/*---------------------------------*/
+
+	afficherListeChainee(listecourante);	
+
+	sauvegarderListeChainee(listecourante);
+
+	desallouerMatrice(matrice,ligne);
+
+	return 0;
 }
 
 
@@ -43,3 +78,5 @@ int main(int args, char * argv[]){
 
 //1
 //Pas de nom fichier entré lors du lancement du programme
+//2
+//Pas de nombre k entre

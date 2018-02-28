@@ -1,5 +1,8 @@
+#ifndef structliste
+#define structliste
 #include <stdio.h>
 #include <stdlib.h>
+
 
 
 typedef struct ListeChainee{
@@ -7,10 +10,12 @@ typedef struct ListeChainee{
 	struct ListeChainee			*suiv;
 }ListeChainee_t;
 
+#endif
 
+ListeChainee_t* creerTeteListeChainee(int valeur,int coordX,int coordY);
 
-ListeChainee_t creerListeChainee(int valeur,int coordX,int coordY);
+ListeChainee_t* ajouterEnTeteElementListeChainee(ListeChainee_t *elemCourant,int valeur,int coordX,int coordY);
 
-void ajouterElementListeChainee(ListeChainee_t *elemCourant,int valeur,int coordX,int coordY);
+void  supprimerDebutListeChainee(ListeChainee_t **liste);
 
-void supprimerElementListeChainee(ListeChainee_t *elemPrecedant,ListeChainee_t *elemCourant);
+void afficherListeChainee(ListeChainee_t *liste);
